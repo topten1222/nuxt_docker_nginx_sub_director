@@ -1,0 +1,20 @@
+version: '2'
+services:
+
+  nginx:
+    image: nginx:stable-alpine
+    volumes:
+      - ./nginx/conf/nginx.conf:/etc/nginx/conf/nginx.conf:ro
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./logs/nginx:/var/log/nginx
+#      - ./ssl:/etc/nginx/ssl
+    volumes_from:
+      - php
+    ports:
+      - 80:80
+
+  nuxt:
+    build: ./app/
+    ports:
+      - "3000:3000"
+    command: "npm run start"
